@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Todos os Filmes</h2>
+<section>
+    <p>Muitos resultados? <a href="{% url 'posts:search' %}">Buscar Filmes</a></p>
+    <p>Não encontrou o filme? <a href="{% url 'posts:create' %}">Adicionar Novo Filme</a></p>
+</section>
+{% if post_list %}
+<section class="lista-de-cards">
+    {% for post in post_list %}
+    <article class="card">
+        <a href="{% url 'posts:detail' forloop.counter %}"><img src="{{ post.poster_url }}"
+                alt="Poster do filme {{ post.name}}"></a>
+        <p>{{ post.name }} ({{ post.release_year }})</p>
+    </article>
+    {% endfor %}
+</section>
+{% else %}
+<p>Não foi encontrado nenhum filme.</p>
+{% endif %}
+
+{% endblock content %}
