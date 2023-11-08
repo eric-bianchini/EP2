@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Todos os Filmes</h2>
+<h2>Todos as melhores postagens de remo estão aqui!</h2>
 <section>
-    <p>Muitos resultados? <a href="{% url 'posts:search' %}">Buscar Filmes</a></p>
-    <p>Não encontrou o filme? <a href="{% url 'posts:create' %}">Adicionar Novo Filme</a></p>
+    <p>Quer buscar algo mais específico? <a href="{% url 'posts:search' %}">Buscar</a></p>
+    <p>Quer postar sobre sua vitória? <a href="{% url 'posts:create' %}">Fazer um post</a></p>
 </section>
 {% if post_list %}
 <section class="lista-de-cards">
@@ -17,7 +17,7 @@
     {% endfor %}
 </section>
 {% else %}
-<p>Não foi encontrado nenhum filme.</p>
+<p>Não foi encontrado nenhum post.</p>
 {% endif %}
 
 {% endblock content %}

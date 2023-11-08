@@ -5,13 +5,13 @@
 {% endblock title %}
 
 {% block content %}
-<h2>Detalhes do Filme {{ post.name }} ({{ post.release_year }})</h2>
+<h2>Detalhes do Post {{ post.name }} ({{ post.release_year }})</h2>
 
 <section class="dados-de-filme">
     <img src="{{ post.poster_url }}" alt="Poster do filme {{ post.name}}">
     <ul>
         <li>Nome: {{ post.name }}</li>
-        <li>Ano de Lançamento: {{ post.release_year }} </li>
+        <li>Data de publicação: {{ post.release_year }} </li>
     </ul>
 </section>
 

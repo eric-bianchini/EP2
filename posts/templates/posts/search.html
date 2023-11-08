@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Busca de Filmes por Nome</h2>
+<h2>Busca de Posts por Nome</h2>
 <form action="{% url 'posts:search' %}">
     <p>
-        <label for="id_query">Título:</label>
+        <label for="id_query">Pesquisa:</label>
         <input type="text" name="query" id="id_query" />
     </p>
     <button type="submit">Buscar</button>
@@ -22,7 +22,7 @@
     {% endfor %}
 </section>
 {% else %}
-<p>Não foi encontrado nenhum filme para a busca.</p>
+<p>Não foi encontrado nenhum post para a busca.</p>
 {% endif %}
 
 {% endblock content %}
