@@ -1,17 +1,19 @@
 {% extends 'base.html' %}
 
 {% block title %}
-{{ post.name }} ({{ post.release_year }}
+{{ post.title }} ({{ post.date }})
 {% endblock title %}
 
 {% block content %}
-<h2>Detalhes do Post {{ post.name }} ({{ post.release_year }})</h2>
+<h2>Detalhes do Post {{ post.title }} ({{ post.date }})</h2>
 
-<section class="dados-de-filme">
-    <img src="{{ post.poster_url }}" alt="Poster do filme {{ post.name}}">
+<section class="dados-de-post">
     <ul>
-        <li>Nome: {{ post.name }}</li>
-        <li>Data de publicação: {{ post.release_year }} </li>
+        <li>Título: {{ post.title }}</li>
+        <li>Data de publicação: {{ post.date }} </li>
+        <li>Conteúdo: {{ post.text }} </li>
+        <li><a href="{% url 'posts:update' post.id %}">Editar</a></li>
+        <li><a href="{% url 'posts:delete' post.id %}">Apagar</a></li>
     </ul>
 </section>
 

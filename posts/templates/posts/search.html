@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Busca de Posts por Nome</h2>
+<h2>Busca de posts por palavras presentes em seu conteúdo</h2>
 <form action="{% url 'posts:search' %}">
     <p>
         <label for="id_query">Pesquisa:</label>
@@ -16,8 +16,8 @@
 <section class="lista-de-cards">
     {% for post in post_list %}
     <article class="card">
-        <img src="{{ post.poster_url }}" alt="Poster do filme {{ post.name}}">
-        <p>{{ post.name }} ({{ post.release_year }})</p>
+        <a href="{% url 'posts:detail' post.id %}"> {{ post.title }}  </a>
+        <p>({{ post.text }}) ({{ post.date }})</p>
     </article>
     {% endfor %}
 </section>
