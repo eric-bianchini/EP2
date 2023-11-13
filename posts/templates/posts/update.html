@@ -3,7 +3,8 @@
 <h2>Atualizar Dados do Post {{ post.title }} ({{ post.date}})</h2>
 <form method="post" action="{% url 'posts:update' post.id%}">
   {% csrf_token %}
-  <p>
+  {{ form.as_p }}
+  <!-- <p>
     <label for="id_title">Título:</label>
     <input type="text" name="title" id="id_title" value="{{ post.title }}" />
   </p>
@@ -15,7 +16,7 @@
       id="id_text"
       value="{{ post.text }}"
     />
-  </p>
+  </p> -->
 
   <button type="submit">Atualizar</button>
 </form>
