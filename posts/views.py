@@ -13,14 +13,17 @@ from django.urls import reverse_lazy
 from .forms import PostForm
 from django.utils import timezone
 
-class PostDetailView(generic.DetailView):
-    model = Post
-    template_name = 'posts/detail.html'
+
+def detail_post(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+    context = {'post': post}
+    return render(request, 'posts/detail.html', context)
 
 
-class PostListView(generic.ListView):
-    model = Post
-    template_name = 'posts/index.html'
+def list_posts(request):
+    post_list = Post.objects.all()
+    context = {"post_list": post_list}
+    return render(request, 'posts/index.html', context)
 
 
 def search_posts(request):
@@ -32,25 +35,49 @@ def search_posts(request):
     return render(request, 'posts/search.html', context)
 
 
-class PostCreateView(generic.CreateView):
-    model = Post
-    form_class = PostForm
-    template_name = 'posts/create.html'
-    success_url = '/posts'
+def create_post(request):
+    if request.method == 'POST':
+        post_title = request.POST['title']
+        post_text = request.POST['text']
+        author_id = request.POST['author']
+        post_author = User.objects.get(id=author_id)
+        post = Post(author = post_author, title=post_title, text=post_text,
+                      date = datetime.now())
+        post.save()
+        return HttpResponseRedirect(
+            reverse('posts:detail', args=(post.id, )))
+    else:
+        form = PostForm()
+        context = {'form': form}
+        return render(request, 'posts/create.html', context)
 
-    def form_valid(self, form: BaseModelForm) -> HttpResponse:
-        form.instance.author = self.request.user
-        return super().form_valid(form)
+
+def update_post(request, post_id):
+
+    if request.method == "POST":
+        form = PostForm(request.POST)
+        if form.is_valid():
+            post = Post.objects.get(id=post_id)
+            post.title = request.POST['title']
+            post.date = datetime.now()
+            post.text = request.POST['text']
+
+            post.save()
+            return HttpResponseRedirect(
+                reverse('posts:detail', args=(post.id, )))
+
+    else:
+        form = PostForm()
+        context = {'form': form}
+        return render(request, 'posts/update.html', context)
 
 
-class PostUpdateView(generic.UpdateView):
-    model = Post
-    template_name = 'posts/update.html'
-    fields = ['title', 'text' ]
-    success_url = '/posts'
+def delete_post(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
 
+    if request.method == "POST":
+        post.delete()
+        return HttpResponseRedirect(reverse('posts:index'))
 
-class PostDeleteView(generic.DeleteView):
-    model = Post
-    template_name = 'posts/delete.html'
-    success_url = '/posts'
+    context = {'post': post}
+    return render(request, 'posts/delete.html', context)
