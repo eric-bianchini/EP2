@@ -4,19 +4,20 @@ from django.http import HttpResponse
 from django.urls import reverse
 from .temp_data import post_data
 from django.shortcuts import render
-from .models import Post
+from .models import *
 from django.shortcuts import render, get_object_or_404
 from datetime import datetime
 from django.contrib.auth.models import User
 from django.views import generic
 from django.urls import reverse_lazy
-from .forms import PostForm
+from .forms import *
 from django.utils import timezone
 
 
 def detail_post(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
-    context = {'post': post}
+    comment_data = Comment.objects.filter(post=post_id)
+    context = {'post': post,  'comment_list':reversed(comment_data)}
     return render(request, 'posts/detail.html', context)
 
 
@@ -81,3 +82,22 @@ def delete_post(request, post_id):
 
     context = {'post': post}
     return render(request, 'posts/delete.html', context)
+
+
+def create_comment(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment_author = form.cleaned_data['author']
+            comment_text = form.cleaned_data['text']
+            comment = Comment(author=comment_author,
+                            text=comment_text,
+                            post=post, date = datetime.now())
+            comment.save()
+            return HttpResponseRedirect(
+                reverse('posts:detail', args=(post_id, )))
+    else:
+        form = CommentForm()
+    context = {'form': form, 'post': post}
+    return render(request, 'posts/comment.html', context)

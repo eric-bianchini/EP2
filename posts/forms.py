@@ -14,3 +14,16 @@ class PostForm(ModelForm):
             'title': 'Título',
             'text': 'Conteúdo',
         }
+
+
+class CommentForm(ModelForm):
+    class Meta:
+        model = Comment
+        fields = [
+            'author',
+            'text',
+        ]
+        labels = {
+            'author': 'Usuário',
+            'text': 'Conteúdo',
+        }

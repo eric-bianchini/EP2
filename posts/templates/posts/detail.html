@@ -17,4 +17,29 @@
     </ul>
 </section>
 
+<section>
+    <header>
+        <h3>Comentários</h3>
+    </header>
+    <ul>
+        {% if comment_list %}
+            {% for comment in comment_list%}
+                <figure>
+                    <blockquote>
+                        "{{ comment.text }}"
+                    </blockquote>
+                    <p>Postado em {{ comment.date |date:"F d, Y H:i" }} </p>
+                    <figcaption>—{{ comment.author }}</figcaption>
+                </figure>
+            {% endfor %}
+        {% else %}
+            <p>Ainda não existe nenhum comentário para esse post.</p>
+        {% endif %}
+    </ul>
+</section>
+
+<hr>
+
+<a href="{% url 'posts:comment' post.pk %}"><button>Crie seu comentário</button></a>
+
 {% endblock content %}
