@@ -22,3 +22,12 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'"{self.text}" -({self.date}) - {self.author.username}'
+    
+
+class Category(models.Model):
+    title = models.CharField(max_length=255)
+    text = models.CharField(max_length=255)
+    posts = models.ManyToManyField(Post)
+
+    def __str__(self):
+        return f'"{self.title}" -{self.text}'

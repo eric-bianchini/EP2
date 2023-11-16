@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{category.title}}
+{% endblock title %}
+
+{% block content %}
+
+<section>
+    <hr>
+    <article>
+        <header>
+            <h3> <a href="{% url 'posts:detail_category' category.id %}"> {{category.title}}  </a>   </h3>
+        </header>
+        <p>Descrição dessa categoria: {{category.text}}   </p>
+        Posts pertencentes a essa categoria:
+        <ul>
+            {% for post in category.posts.all %}
+            <li> <a href="{% url 'posts:detail' post.id %}"> {{ post.title }}   </a> </li>
+            {% endfor %}
+        </ul>
+        </div>
+    </article>
+
+</section>
+
+{% endblock content %}

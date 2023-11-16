@@ -101,3 +101,14 @@ def create_comment(request, post_id):
         form = CommentForm()
     context = {'form': form, 'post': post}
     return render(request, 'posts/comment.html', context)
+
+class CategoryListView(generic.ListView):
+    model = Category
+    template_name = 'posts/categories.html'
+
+def detail_category(request, category_id):  
+    category = get_object_or_404(Category, pk=category_id)
+    post_list = Post.objects.filter(category=category_id)
+    context = {'category': category,  'post_list': post_list}
+    return render(request, 'posts/detail_category.html', context)
+

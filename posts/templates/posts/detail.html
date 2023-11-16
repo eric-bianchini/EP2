@@ -42,4 +42,18 @@
 
 <a href="{% url 'posts:comment' post.pk %}"><button>Crie seu comentário</button></a>
 
+<hr>
+
+{% if post.category_set.all %}
+    <li>Incluso nas categorias:
+        {% for category in post.category_set.all %}
+        <a href="{% url 'posts:detail_category' category.id %}"> {{category.title}}  </a> {% if not forloop.last %}, {% endif %}
+        {% endfor %}
+    </li>
+
+{% else %}
+<p>Seu post não faz parte de nenhuma categoria ainda.</p>
+
+{% endif %}
+
 {% endblock content %}
